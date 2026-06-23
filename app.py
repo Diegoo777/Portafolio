@@ -27,7 +27,6 @@ import portafolio as P
 # ------------------------------------------------------------------ Config UI
 st.set_page_config(
     page_title="Robot de Portafolios con Señales Cuantitativas",
-    page_icon="📈",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -86,7 +85,7 @@ def calcular_perfil(score):
 
 
 # ====================================================================== SIDEBAR
-st.sidebar.title("⚙️ Controles")
+st.sidebar.title("Controles")
 pagina = st.sidebar.radio(
     "Sección",
     ["1 · Perfil del inversor", "2 · Universo y señales", "3 · Frontera eficiente",
@@ -94,7 +93,7 @@ pagina = st.sidebar.radio(
 )
 
 # --- Perfil (siempre disponible para todas las páginas) ---
-with st.sidebar.expander("🧭 Perfil del inversor", expanded=(pagina.startswith("1"))):
+with st.sidebar.expander("Perfil del inversor", expanded=(pagina.startswith("1"))):
     a1 = st.radio("1. Horizonte de inversión", list(Q1), index=2, key="q1")
     a2 = st.radio("2. Si su portafolio cayera 20% en un mes", list(Q2), index=2, key="q2")
     a3 = st.radio("3. Objetivo principal", list(Q3), index=1, key="q3")
@@ -107,7 +106,7 @@ lam = PERFILES[categoria]["lam"]
 color_perfil = PERFILES[categoria]["color"]
 
 # --- Universo y señales ---
-with st.sidebar.expander("🌐 Universo y señales", expanded=(pagina.startswith("2"))):
+with st.sidebar.expander("Universo y señales", expanded=(pagina.startswith("2"))):
     tickers_raw = st.text_area(
         "Tickers de Yahoo Finance (uno por línea o separados por coma)",
         value="GOOGL\nMSFT\nAAPL\nAMZN\nWALMEX.MX\nBIMBOA.MX", height=140, key="tickers")
@@ -116,21 +115,21 @@ with st.sidebar.expander("🌐 Universo y señales", expanded=(pagina.startswith
     senales_sel = st.multiselect("Señales cuantitativas (consenso AND)",
                                  list(S.CATALOGO_SENALES.keys()),
                                  default=["Filtro de tendencia (SMA 200)"], key="senales")
-    if st.button("⬇️  Descargar y analizar", type="primary", use_container_width=True):
+    if st.button("Descargar y analizar", type="primary", use_container_width=True):
         raw = tickers_raw.replace(",", "\n")
         tickers = list(dict.fromkeys(t.strip().upper() for t in raw.split("\n") if t.strip()))
         with st.spinner("Descargando precios de Yahoo Finance..."):
             st.session_state["datos"] = cargar_datos(tuple(tickers), periodo)
 
 # --- Optimización ---
-with st.sidebar.expander("📐 Optimización", expanded=(pagina.startswith("3"))):
+with st.sidebar.expander("Optimización", expanded=(pagina.startswith("3"))):
     n_port = st.slider("Portafolios aleatorios a simular", 1000, 10000, 4000, 500, key="n_port")
 
 datos = st.session_state.get("datos")
 
 
 def aviso_sin_datos():
-    st.info("Primero presione **⬇️ Descargar y analizar** en la barra lateral "
+    st.info("Primero presione **Descargar y analizar** en la barra lateral "
             "(sección *Universo y señales*).")
 
 
@@ -233,7 +232,7 @@ def pagina_frontera():
     for key, nombre, col, sym in [
         ("w_minvar", "Mínima varianza", "#0d9488", "diamond"),
         ("w_sharpe", "Máximo Sharpe", "#ef4444", "star"),
-        ("w_perfil", f"★ Su perfil ({categoria})", color_perfil, "circle")]:
+        ("w_perfil", f"Su perfil ({categoria})", color_perfil, "circle")]:
         w = opt[key]
         r = P.rendimiento_portafolio(w.values, mu.values)
         v = P.volatilidad_portafolio(w.values, cov.values)
@@ -286,7 +285,7 @@ def pagina_asignacion():
             estado = "—"
             if activo in datos["ohlc"]:
                 pos = S.posicion_combinada(datos["ohlc"][activo], senales_sel)
-                estado = "🟢 Invertido" if int(pos.iloc[-1]) == 1 else "🔴 Efectivo"
+                estado = "Invertido" if int(pos.iloc[-1]) == 1 else "Efectivo"
             filas.append({"Activo": activo, "Peso": f"{w[activo]*100:.1f} %",
                           "Monto (MXN)": round(w[activo] * objetivo, 0),
                           "Estado señal": estado})
@@ -385,7 +384,7 @@ def pagina_backtest():
 
 
 # ====================================================================== ROUTER
-st.title("📈 Robot de Administración de Portafolios con Señales Cuantitativas")
+st.title("Robot de Administración de Portafolios con Señales Cuantitativas")
 
 if pagina.startswith("1"):
     pagina_perfil()

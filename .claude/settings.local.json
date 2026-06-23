@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "PowerShell(conda activate *)",
-      "PowerShell(& \"C:\\\\Users\\\\diego\\\\anaconda\\\\anaconda3\\\\envs\\\\Bot\\\\Scripts\\\\pip.exe\" install shiny shinywidgets yfinance pandas numpy plotly seaborn scipy ib_insync)",
-      "PowerShell(pip install *)"
-    ]
-  }
-}
