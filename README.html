@@ -50,11 +50,20 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<section id="seleccion-de-portafolios-y-administracion-de-inversiones" class="level1">
-<h1>Seleccion de portafolios y administracion de inversiones</h1>
+<section id="optimizador-de-portafolios-y-analisis-tecnico" class="level1">
+<h1>Optimizador de portafolios y analisis tecnico</h1>
+<p>Aplicación web de <strong>algorithmic trading</strong> que aplica teoria de portafolios interactivo usando <strong>señales cuantitativas</strong> de análisis técnico. Proyecto final de Finanzas computacionales y algorithmic trading utilizando streamlit</p>
+<p>comportamiento de la app: perfilas al inversor → eliges un universo de activos → optimizas el portafolio en la frontera eficiente → asignas el capital → validas la estrategia con un <em>backtest</em> → y exploras los indicadores técnicos de cada activo.</p>
+<hr>
+<section id="app-en-línea" class="level2">
+<h2 class="anchored" data-anchor-id="app-en-línea">App en línea</h2>
+<p>El link para acceder a la aplicacion es el siguiente:</p>
+<p><a href="https://portafoliosalgorithmictrading.streamlit.app">App web</a></p>
+<hr>
+</section>
 <section id="qué-hace" class="level2">
 <h2 class="anchored" data-anchor-id="qué-hace">¿Qué hace?</h2>
-<p>Navegación por la barra lateral (5 secciones):</p>
+<p>Navegación por la barra lateral (6 secciones):</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 50%">
@@ -69,36 +78,70 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td><strong>1 · Perfil del inversor</strong></td>
-<td>Cuestionario de aversión al riesgo → perfil Conservador / Moderado / Agresivo + coeficiente λ (con gauge).</td>
+<td>Cuestionario de aversión al riesgo → perfil Conservador / Moderado / Agresivo + coeficiente de aversión λ.</td>
 </tr>
 <tr class="even">
 <td><strong>2 · Universo y señales</strong></td>
-<td>Descarga de precios (yfinance), métricas por activo, correlación, y selección de señales.</td>
+<td>Descarga de precios (yfinance), métricas anualizadas por activo, matriz de correlación y selección de señales + modo de combinación.</td>
 </tr>
 <tr class="odd">
 <td><strong>3 · Frontera eficiente</strong></td>
-<td>Markowitz con <code>scipy.optimize</code>: nube de portafolios, <strong>acciones individuales</strong>, mínima varianza, máximo Sharpe y el óptimo del perfil.</td>
+<td>Markowitz: nube de portafolios, acciones individuales, mínima varianza, máximo Sharpe y el óptimo del perfil.</td>
 </tr>
 <tr class="even">
 <td><strong>4 · Asignación de activos</strong></td>
-<td>Pesos recomendados (pie), montos en MXN y estado táctico actual de cada activo.</td>
+<td>Pesos recomendados, montos en MXN y estado actual (Invertido(compra) o Efectivo(venta)) de cada activo.</td>
 </tr>
 <tr class="odd">
 <td><strong>5 · Backtest y validación</strong></td>
-<td>Óptimo Buy &amp; Hold vs.&nbsp;Óptimo + overlay de señales vs.&nbsp;equiponderado. CAGR, Sharpe, Máx. Drawdown, VaR y prueba SPA de Hansen.</td>
+<td>Óptimo Buy &amp; Hold vs.&nbsp;Óptimo + señales vs.&nbsp;equiponderado. Efectivo que rinde la tasa libre de riesgo, costos de transacción, CAGR, Sharpe, Sortino, Calmar, Máx. Drawdown, VaR y pruebaSPA de Hansen.</td>
+</tr>
+<tr class="even">
+<td><strong>6 · Indicadores técnicos</strong></td>
+<td>Velas japonesas por activo con SMA 200, EMA 8/21 y Bandas de Bollinger, marcadores de entrada/salida y paneles de RSI, MACD, Estocástico y volumen.</td>
 </tr>
 </tbody>
 </table>
-<p>Las señales (RSI, MACD, EMA, Bollinger, Estocástico+Momentum, SMA 200, Logit) se reutilizan de <code>senales.py</code> con el contrato <code>ejecutar(df) -&gt; (buy, sell)</code>; con varias activas se exige <strong>consenso (AND)</strong>. Este concenso funciona de forma en que las señales seleccionadas se tienen que poner todas de acuerdo para ejecutar los movimientos</p>
+<hr>
 </section>
-<section id="archivos" class="level2">
-<h2 class="anchored" data-anchor-id="archivos">Archivos</h2>
-<pre><code>ProyectoStreamlit/
-├── app.py                 # Aplicación Streamlit (las 5 secciones)
-├── senales.py             # Librería de señales cuantitativas (idéntica a Proyecto/)
-├── portafolio.py          # Optimización de Markowitz (idéntica a Proyecto/)
-├── requirements.txt
-├── .streamlit/config.toml # Tema oscuro
+<section id="señales-disponibles" class="level2">
+<h2 class="anchored" data-anchor-id="señales-disponibles">Señales disponibles</h2>
+<p>Catálogo en <code>senales.py</code> (cada una sigue el contrato <code>ejecutar(df) -&gt; (buy, sell)</code>):</p>
+<ul>
+<li><strong>RSI</strong> — sobreventa / sobrecompra (compra &lt;30, vende &gt;70).</li>
+<li><strong>MACD</strong> — cruces de la línea con su señal.</li>
+<li><strong>Cruce de EMAs (8/21)</strong> — la EMA rápida cruza a la lenta.</li>
+<li><strong>Bandas de Bollinger</strong> — reversión a la media en los extremos.</li>
+<li><strong>Estocástico + Momentum</strong> — sobreventa del %K con momentum positivo.</li>
+<li><strong>Filtro de tendencia (SMA 200)</strong> — <em>filtro de régimen</em> estilo Faber: invertido sólo mientras el precio está por encima de su media de 200 días (esquiva mercados bajistas).</li>
+<li><strong>Regresión logística (ML)</strong> — modelo Logit que predice la dirección con indicadores rezagados.</li>
+</ul>
+<p><strong>Combinación de varias señales</strong> (configurable en la barra lateral):</p>
+<ul>
+<li><strong>Consenso (AND)</strong> — invertido sólo si <strong>todas</strong> coinciden (más tiempo en efectivo).</li>
+<li><strong>Cualquiera (OR)</strong> — invertido si <strong>cualquiera</strong> lo indica.</li>
+<li><strong>Mayoría (voto)</strong> — invertido si al menos la mitad coincide.</li>
+</ul>
+<hr>
+</section>
+<section id="arquitectura" class="level2">
+<h2 class="anchored" data-anchor-id="arquitectura">Arquitectura</h2>
+<ul>
+<li><strong><code>app.py</code></strong> — única parte que depende de Streamlit. Interfaz, caché y estado de las 6 secciones.</li>
+<li><strong><code>portafolio.py</code></strong> — módulo puro de Markowitz (numpy/pandas/scipy). Portafolios <em>long-only</em> (pesos ≥ 0 que suman 1), estadísticos anualizados (252 días), frontera eficiente simulada y tres óptimos por scipy.optimize (mínima varianza, máximo Sharpe, utilidad media-varianza por λ).</li>
+<li><strong><code>senales.py</code></strong> — librería pura de señales técnicas (usa <code>ta</code>; <code>scikit-learn</code>).</li>
+</ul>
+<hr>
+</section>
+<section id="estructura-del-proyecto" class="level2">
+<h2 class="anchored" data-anchor-id="estructura-del-proyecto">Estructura del proyecto</h2>
+<pre><code>Portafolio/
+├── app.py                  # Aplicación Streamlit (las 6 secciones)
+├── senales.py              # Librería de señales cuantitativas + indicadores
+├── portafolio.py           # Optimización de Markowitz
+├── requirements.txt        # Dependencias para streamlit
+├── .streamlit/
+│   └── config.toml         # configuracion de streamlit
 └── README.md</code></pre>
 </section>
 </section>
