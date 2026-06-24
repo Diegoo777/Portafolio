@@ -62,16 +62,7 @@ def senal_stoch_momentum(df, stoch_window=14, stoch_smooth=3,
 
 
 def posicion_tendencia(df, window=200):
-    """
-    Posición de un Filtro de regimén: invertido (1) mientras el precio está por
-    encima de su SMA larga, en efectivo (0) cuando está por debajo. Es la regla
-    de 'time-series momentum' / media móvil de 200 días (estilo Faber): su valor
-    NO es ganarle en rendimiento al Buy & Hold en mercados alcistas, sino esquivar
-    los grandes descensos.
-
-    El periodo de calentamiento (SMA aún sin definir) se asume INVERTIDO, de modo
-    que el overlay arranca igual que el Buy & Hold y no arrastra efectivo ocioso.
-    """
+   
     sma = ta.trend.sma_indicator(df['close'], window=window)
     invertido = (df['close'] > sma)
     invertido[sma.isna()] = True  # calentamiento -> invertido (equivale a B&H)
