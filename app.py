@@ -577,7 +577,7 @@ def pagina_indicadores():
 
 
 # ====================================================================== ROUTER
-st.title("Robot de Administración de Portafolios con Señales Cuantitativas")
+st.title("Administración de Portafolios con Señales Cuantitativas")
 
 if pagina.startswith("1"):
     pagina_perfil()
