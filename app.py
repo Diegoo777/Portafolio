@@ -120,7 +120,7 @@ color_perfil = PERFILES[categoria]["color"]
 with st.sidebar.expander("Universo y señales", expanded=(pagina.startswith("2"))):
     tickers_raw = st.text_area(
         "Tickers de Yahoo Finance (uno por línea o separados por coma)",
-        value="GOOGL\nMSFT\nAAPL\nAMZN\nWALMEX.MX\nBIMBOA.MX", height=140, key="tickers")
+        value="QQQ\nBTC-USD\nMETA\nXLE\nTTWO\nARKK\nNVDA", height=160, key="tickers")
     periodo = st.selectbox("Histórico a descargar",
                            ["1y", "2y", "3y", "5y"], index=2, key="periodo")
     senales_sel = st.multiselect("Señales cuantitativas",
