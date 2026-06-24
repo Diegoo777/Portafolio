@@ -1,5 +1,4 @@
-
-
+#Librerías
 
 from dataclasses import dataclass
 from typing import Callable, Optional
@@ -9,9 +8,7 @@ import pandas as pd
 import ta
 
 
-# ==============================================================================
-# REGLAS CERRADAS DE ANÁLISIS TÉCNICO
-# ==============================================================================
+#Reglas de análisis técnico (cerradas)
 
 def senal_rsi(df, window=14, limit_buy=30, limit_sell=70):
     """RSI: compra en sobreventa (<limit_buy), vende en sobrecompra (>limit_sell)."""
@@ -66,7 +63,7 @@ def senal_stoch_momentum(df, stoch_window=14, stoch_smooth=3,
 
 def posicion_tendencia(df, window=200):
     """
-    Posición de un FILTRO DE RÉGIMEN: invertido (1) mientras el precio está por
+    Posición de un Filtro de regimén: invertido (1) mientras el precio está por
     encima de su SMA larga, en efectivo (0) cuando está por debajo. Es la regla
     de 'time-series momentum' / media móvil de 200 días (estilo Faber): su valor
     NO es ganarle en rendimiento al Buy & Hold en mercados alcistas, sino esquivar
@@ -91,20 +88,10 @@ def senal_tendencia(df, window=200):
     return buy_sig, sell_sig
 
 
-# ==============================================================================
-# SEÑAL ECONOMÉTRICA / MACHINE LEARNING (opcional)
-# ==============================================================================
+#Señal econométrica
 
 def senal_logit(df):
-    """
-    Regresión logística sobre indicadores técnicos rezagados (t-1) para predecir
-    la dirección del precio. Entrena con el 70% inicial y predice el 30% final
-    (evita look-ahead). Devuelve compra al predecir alza y venta al predecir baja.
-
-    Importa sklearn de forma perezosa para no exigir la dependencia si no se usa.
-    Si scikit-learn no está instalado, la señal se desactiva (devuelve sin señales)
-    en vez de romper la app.
-    """
+    
     try:
         from sklearn.linear_model import LogisticRegression
         from sklearn.preprocessing import StandardScaler
@@ -156,9 +143,7 @@ def senal_logit(df):
     return buy_sig.fillna(0).astype(int), sell_sig.fillna(0).astype(int)
 
 
-# ==============================================================================
-# CATÁLOGO: fuente única de verdad para los checkboxes del dashboard
-# ==============================================================================
+#Catálogo de señales
 
 @dataclass
 class Senal:
@@ -192,15 +177,13 @@ CATALOGO_SENALES = {
 }
 
 
-# ==============================================================================
-# CONVERSIÓN DE SEÑALES A POSICIÓN CONTINUA (overlay táctico)
-# ==============================================================================
+#Conversión de señales a posición única
 
 def senal_a_posicion(buy_sig, sell_sig, estado_inicial=0):
     """
     Convierte señales discretas de compra/venta en una serie de posición continua:
     1 = invertido, 0 = en efectivo. `estado_inicial` fija el estado antes de la
-    primera señal (1 = ya invertido, recomendado para un overlay táctico).
+    primera señal (1 = ya invertido, recomendado para un overlay).
     Al recibir una compra pasa a 1, al recibir una venta pasa a 0, y mantiene el
     estado entre señales (forward-fill del estado).
     """
@@ -253,9 +236,7 @@ def posicion_combinada(df, nombres_senales, modo="Consenso (AND)"):
     return combinada.astype(int)
 
 
-# ==============================================================================
-# INDICADORES PARA VISUALIZACIÓN (pestaña de gráficas técnicas)
-# ==============================================================================
+#Indicadores gráficos
 
 def indicadores_para_grafico(df, sma_window=200, ema_fast=8, ema_slow=21,
                              bb_window=20, bb_dev=2.0, rsi_window=14,
