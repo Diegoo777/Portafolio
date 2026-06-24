@@ -135,6 +135,7 @@ def optimo_por_aversion(mu, cov, lam):
     Maximiza la utilidad media-varianza  U(w) = w'mu - 0.5 * lam * w'cov w.
     'lam' es el coeficiente de aversión al riesgo que entrega el perfilamiento:
     lam bajo  -> agresivo (busca rendimiento), lam alto -> conservador (penaliza riesgo).
+    la landa se define en la app de acuerdo a la aversion al riesgo
     """
     n = len(mu)
     mu_v = mu.values

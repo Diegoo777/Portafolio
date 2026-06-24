@@ -1,17 +1,9 @@
 """
 ================================================================================
-   ROBOT DE ADMINISTRACIÓN DE PORTAFOLIOS CON SEÑALES CUANTITATIVAS
-   Versión Streamlit (tema oscuro) — Proyecto final de Finanzas Computacionales
+   APLICACION DE ADMINISTRACION DE PORTAFOLIOS Y ANALISIS TECNICO
+   PEOYECTO INTEGRADOR
 ================================================================================
-Misma esencia que la app de Quarto/Shiny, portada a Streamlit para web:
-  1. Perfil del inversor       4. Asignación de activos
-  2. Universo y señales        5. Backtest y validación
-  3. Frontera eficiente
 
-Reutiliza tal cual los módulos puros senales.py y portafolio.py.
-Todo el estado pesado (descargas, frontera) se cachea con st.cache_data y se
-conserva entre interacciones con st.session_state.
-================================================================================
 """
 
 import importlib.util
