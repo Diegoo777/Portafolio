@@ -1,5 +1,10 @@
 # Optimizador de portafolios y analisis tecnico
 
+### Participantes
+Abigail Sampedro Gutiérrez
+
+Diego Pedraza Barajas
+
 Aplicación web de **algorithmic trading** que aplica teoria de portafolios interactivo usando
 **señales cuantitativas** de análisis técnico.
 Proyecto final de Finanzas computacionales y algorithmic trading utilizando streamlit
