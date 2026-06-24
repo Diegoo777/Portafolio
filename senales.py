@@ -1,25 +1,5 @@
-"""
-================================================================================
-   LIBRERÍA DE SEÑALES CUANTITATIVAS SELECCIONABLES
-================================================================================
-Proyecto final - Finanzas Computacionales
 
-Cada señal sigue el MISMO contrato de la librería modular del profesor
-(09DashBoardTradingBot/estrategias): una función `ejecutar(df, ...)` que recibe
-un DataFrame con columnas ['open','high','low','close','volume'] y devuelve dos
-Series binarias alineadas al índice de df:
 
-    buy_sig  : 1 = señal de compra/entrada, 0 = nada
-    sell_sig : 1 = señal de venta/salida,  0 = nada
-
-La función `senal_a_posicion(buy, sell)` convierte esas señales discretas en una
-serie continua de POSICIÓN (1 = invertido, 0 = en efectivo), que es lo que el
-dashboard usa como "overlay táctico" sobre los pesos del portafolio de Markowitz.
-
-El diccionario CATALOGO_SENALES es la fuente única de verdad para poblar los
-checkboxes del dashboard: nombre visible -> (callable, descripción).
-================================================================================
-"""
 
 from dataclasses import dataclass
 from typing import Callable, Optional
