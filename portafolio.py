@@ -1,22 +1,4 @@
-"""
-================================================================================
-   MÓDULO DE TEORÍA MODERNA DE PORTAFOLIOS (MARKOWITZ)
-================================================================================
-Proyecto final - Finanzas Computacionales
-
-Funciones para:
-  - Estimar el vector de rendimientos esperados y la matriz de covarianza
-    (anualizados) a partir de una matriz de precios de cierre.
-  - Trazar la frontera eficiente por simulación (nube de portafolios aleatorios).
-  - Resolver portafolios notables con scipy.optimize:
-        * mínima varianza global
-        * máxima razón de Sharpe (portafolio tangente)
-        * óptimo por utilidad media-varianza según la aversión al riesgo (lambda)
-          que entrega el perfilamiento del cliente.
-
-Convención: todos los portafolios son "long-only" (pesos >= 0) y suman 1.
-================================================================================
-"""
+## librerias
 
 import numpy as np
 import pandas as pd
